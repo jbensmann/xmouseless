@@ -1,1 +1,2 @@
 - call XInitThreads
+- check if key repeat is enabled at start
