@@ -1,5 +1,4 @@
 /*
-    gcc xmouseless.c -o xmouseless -lX11 -lpthread -lXtst
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,6 +25,7 @@ struct {
     int movex;
     int movey;
 } mouseinfo;
+
 
 
 int getrootptr(int *x, int *y);
