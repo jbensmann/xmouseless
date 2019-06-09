@@ -1,4 +1,5 @@
 /*
+ * xmouseless
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,6 +30,11 @@ typedef struct {
     KeySym keysym;
     int speed;
 } SpeedBindings;
+
+typedef struct {
+    KeySym keysym;
+    char *command;
+} ShellBinding;
 
 /* load configuration */
 #include "config.h"
@@ -168,6 +174,17 @@ void handle_keyrelease(XKeyEvent event) {
         if (speed_bindings[i].keysym == keysym) {
             speed = default_speed;
             printf("speed: %i\n", speed);
+        }
+    }
+
+    /* shell bindings */
+    for (i = 0; i < LENGTH(shell_bindings); i++) {
+        if (shell_bindings[i].keysym == keysym) {
+            printf("executing: %s\n", shell_bindings[i].command);
+            if (fork() == 0) {
+                system(shell_bindings[i].command);
+                exit(EXIT_SUCCESS);
+            }
         }
     }
 

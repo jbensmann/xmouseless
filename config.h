@@ -39,6 +39,12 @@ static ClickBinding click_bindings[] = {
     { XK_minus,    5 },
 };
 
+static ShellBinding shell_bindings[] = {
+    /* key         command */  
+    { XK_b,        "wmctrl -a firefox" },
+    { XK_t,        "echo $0 >> ~/test" },
+};
+
 /* exits on key release which allows click and exit with one key */
 static unsigned int exit_keys[] = {
     XK_Escape, XK_q, XK_space
