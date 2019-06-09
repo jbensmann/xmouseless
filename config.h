@@ -1,27 +1,16 @@
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
 
 /* the rate at which the mouse moves */
-#define MOVE_RATE 30
+static const unsigned int move_rate = 30;
 
 /* the speed with no modifier */
-#define DEFAULT_SPEED 10
+static const unsigned int default_speed = 20;
 
-typedef struct {
-    KeySym keysym;
-    int x;
-    int y;
-} MoveBinding;
-
-typedef struct {
-    KeySym keysym;
-    int button;
-} ClickBinding;
-
-typedef struct {
-    KeySym keysym;
-    int speed;
-} SpeedBindings;
+static SpeedBindings speed_bindings[] = {
+    /* key             speed */  
+    { XK_Super_L,      100 },
+    { XK_Alt_L,        50  },
+    { XK_a,            2   },
+};
 
 static MoveBinding move_bindings[] = {
     /* key         x      y */
@@ -35,23 +24,22 @@ static MoveBinding move_bindings[] = {
     { XK_period,    1,     1 },
 };
 
+/* 1: left
+ * 2: middle
+ * 3: right
+ * 4: scroll up
+ * 5: scroll down */
 static ClickBinding click_bindings[] = {
     /* key         button */  
     { XK_space,    1 },
     { XK_f,        1 },
     { XK_d,        2 },
     { XK_s,        3 },
-    { XK_minus,    4 },
-    { XK_plus,     5 },
+    { XK_plus,     4 },
+    { XK_minus,    5 },
 };
 
-static SpeedBindings speed_bindings[] = {
-    /* key             speed */  
-    { XK_Super_L,      200 },
-    { XK_Alt_L,        50  },
-    { XK_a,            2   },
-};
-
+/* exits on key release which allows click and exit with one key */
 static unsigned int exit_keys[] = {
     XK_Escape, XK_q, XK_space
 };

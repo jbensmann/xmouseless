@@ -11,16 +11,35 @@
 #include <X11/XKBlib.h>
 #include <X11/extensions/XTest.h>
 
+#define LENGTH(X)   (sizeof X / sizeof X[0])
+
+
+typedef struct {
+    KeySym keysym;
+    int x;
+    int y;
+} MoveBinding;
+
+typedef struct {
+    KeySym keysym;
+    int button;
+} ClickBinding;
+
+typedef struct {
+    KeySym keysym;
+    int speed;
+} SpeedBindings;
+
+/* load configuration */
 #include "config.h"
 
-#define LENGTH(X)               (sizeof X / sizeof X[0])
 
 Display *dpy;
 int screen;
 Window root;
 pthread_t movethread;
 
-unsigned int speed = DEFAULT_SPEED;
+static unsigned int speed = default_speed;
 
 struct {
     int x;
@@ -84,7 +103,7 @@ void *moveforever(void *val) {
         if (mouseinfo.move_x != 0 || mouseinfo.move_y != 0) {
             moverelative(speed * mouseinfo.move_x, speed * mouseinfo.move_y);
         }
-        usleep(1000000 / MOVE_RATE);
+        usleep(1000000 / move_rate);
     }
 }
 
@@ -115,8 +134,8 @@ void handle_keypress(XKeyEvent event) {
     /* speed bindings */
     for (i = 0; i < LENGTH(speed_bindings); i++) {
         if (speed_bindings[i].keysym == keysym) {
-            printf("speed: %i\n", speed_bindings[i].speed);
             speed = speed_bindings[i].speed;
+            printf("speed: %i\n", speed);
         }
     }
 }
@@ -147,8 +166,8 @@ void handle_keyrelease(XKeyEvent event) {
     /* speed bindings */
     for (i = 0; i < LENGTH(speed_bindings); i++) {
         if (speed_bindings[i].keysym == keysym) {
-            printf("speed: %i\n", DEFAULT_SPEED);
-            speed = DEFAULT_SPEED;
+            speed = default_speed;
+            printf("speed: %i\n", speed);
         }
     }
 
