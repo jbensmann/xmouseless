@@ -7,8 +7,6 @@
 /* the speed with no modifier */
 #define DEFAULT_SPEED 10
 
-#define EXIT_KEY XK_q
-
 typedef struct {
     KeySym keysym;
     int x;
@@ -39,6 +37,7 @@ static MoveBinding move_bindings[] = {
 
 static ClickBinding click_bindings[] = {
     /* key         button */  
+    { XK_space,    1 },
     { XK_f,        1 },
     { XK_d,        2 },
     { XK_s,        3 },
@@ -49,4 +48,8 @@ static SpeedBindings speed_bindings[] = {
     { XK_Super_L,      200 },
     { XK_Alt_L,        50  },
     { XK_a,            2   },
+};
+
+static unsigned int exit_keys[] = {
+    XK_Escape, XK_q, XK_space
 };

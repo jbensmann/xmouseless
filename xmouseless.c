@@ -92,12 +92,6 @@ void handle_keypress(XKeyEvent event) {
     keysym = XkbKeycodeToKeysym(dpy, event.keycode, 
                                 0, event.state & ShiftMask ? 1 : 0);
 
-    /* exit */ 
-    if (keysym == EXIT_KEY) {
-        close_x();
-        exit(0);
-    }
-
     /* move bindings */
     for (i = 0; i < LENGTH(move_bindings); i++) {
         if (move_bindings[i].keysym == keysym) {
@@ -152,6 +146,14 @@ void handle_keyrelease(XKeyEvent event) {
         if (speed_bindings[i].keysym == keysym) {
             printf("speed: %i\n", DEFAULT_SPEED);
             speed = DEFAULT_SPEED;
+        }
+    }
+
+    /* exit */ 
+    for (i = 0; i < LENGTH(exit_keys); i++) {
+        if (exit_keys[i] == keysym) {
+            close_x();
+            exit(0);
         }
     }
 }
