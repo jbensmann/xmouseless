@@ -59,13 +59,16 @@ void click(int button, int is_press) {
 }
 
 void init_x() {
+    /* initialize support for concurrent threads */
+    XInitThreads();
+
     dpy=XOpenDisplay((char *)0);
     screen=DefaultScreen(dpy);
     root = RootWindow(dpy, screen);
 
     XGrabKeyboard(dpy, root, False, GrabModeAsync, GrabModeAsync, CurrentTime);
 
-    /* turn auto repeat of key off */
+    /* turn auto key repeat off */
     XAutoRepeatOff(dpy);
 }
 
