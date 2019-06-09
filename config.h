@@ -41,6 +41,8 @@ static ClickBinding click_bindings[] = {
     { XK_f,        1 },
     { XK_d,        2 },
     { XK_s,        3 },
+    { XK_minus,    4 },
+    { XK_plus,     5 },
 };
 
 static SpeedBindings speed_bindings[] = {
