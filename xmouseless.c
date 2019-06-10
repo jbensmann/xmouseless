@@ -84,6 +84,8 @@ void click(int button, int is_press) {
 }
 
 void init_x() {
+    int i;
+
     /* initialize support for concurrent threads */
     XInitThreads();
 
@@ -91,16 +93,27 @@ void init_x() {
     screen=DefaultScreen(dpy);
     root = RootWindow(dpy, screen);
 
-    XGrabKeyboard(dpy, root, False, GrabModeAsync, GrabModeAsync, CurrentTime);
-
     /* turn auto key repeat off */
     XAutoRepeatOff(dpy);
+
+    /* grab keys until success */
+    for (i = 0; i < 100; i++) {
+        if (XGrabKeyboard(dpy, root, False, GrabModeAsync,
+                GrabModeAsync, CurrentTime) == GrabSuccess)
+            return;
+        usleep(10000);
+    }
+
+    printf("grab keyboard failed");
+    close_x(EXIT_FAILURE);
 }
 
-void close_x() {
+void close_x(int exit_status) {
     /* turn auto repeat on again */
     XAutoRepeatOn(dpy);
+    XUngrabKey(dpy, AnyKey, AnyModifier, root);
     XCloseDisplay(dpy);
+    exit(exit_status);
 }
 
 void *moveforever(void *val) {
@@ -191,8 +204,7 @@ void handle_keyrelease(XKeyEvent event) {
     /* exit */ 
     for (i = 0; i < LENGTH(exit_keys); i++) {
         if (exit_keys[i] == keysym) {
-            close_x();
-            exit(0);
+            close_x(EXIT_SUCCESS);
         }
     }
 }
