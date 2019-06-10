@@ -1,6 +1,7 @@
 # xmouseless
 
-This program is a replacement of the physical mouse for X11.
+This program is a replacement for the physical mouse in X11.
+
 It aims to be simple and efficient.
 
 Features:
