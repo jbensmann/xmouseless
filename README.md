@@ -1,13 +1,12 @@
 # xmouseless
 
 This program is a replacement of the physical mouse for X11.
+It aims to be simple and efficient.
 
 Features:
 - move the mouse with different speeds
 - click and grab
 - execute shell commands
-
-It aims to be simple and efficient.
 
 ## Installation
 
@@ -18,7 +17,7 @@ sudo make install
 
 ## Configuration
 
-Edit config.h and reinstall.
+Edit config.h and reinstall. The configuration file should be self explaining.
 
 ## Usage
 
