@@ -3,13 +3,14 @@
 static const unsigned int move_rate = 30;
 
 /* the speed with no modifier */
-static const unsigned int default_speed = 20;
+static const unsigned int default_speed = 15;
 
 static SpeedBindings speed_bindings[] = {
     /* key             speed */  
     { XK_Super_L,      100 },
     { XK_Alt_L,        50  },
-    { XK_a,            2   },
+    { XK_a,            3   },
+    { XK_Control_L,    1   },
 };
 
 static MoveBinding move_bindings[] = {
