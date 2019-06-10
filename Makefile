@@ -19,8 +19,8 @@ clean:
 
 install: all
 	mkdir -p $(PREFIX)/bin
-	cp -f $(BIN) ${PREFIX}/bin
-	chmod 755 ${PREFIX}/bin/$(BIN)
+	cp -f $(BIN) $(PREFIX)/bin
+	chmod 755 $(PREFIX)/bin/$(BIN)
 
 uninstall:
-	rm -f ${PREFIX}/bin/$(BIN)
+	rm -f $(PREFIX)/bin/$(BIN)
