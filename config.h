@@ -47,6 +47,6 @@ static ShellBinding shell_bindings[] = {
 };
 
 /* exits on key release which allows click and exit with one key */
-static unsigned int exit_keys[] = {
+static KeySym exit_keys[] = {
     XK_Escape, XK_q, XK_space
 };
