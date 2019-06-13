@@ -1,5 +1,6 @@
 
-/* the rate at which the mouse moves */
+/* the rate at which the mouse moves in Hz
+ * also affects the speed */
 static const unsigned int move_rate = 30;
 
 /* the speed with no modifier */
