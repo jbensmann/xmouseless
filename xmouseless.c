@@ -17,8 +17,8 @@
 
 typedef struct {
     KeySym keysym;
-    int x;
-    int y;
+    float x;
+    float y;
 } MoveBinding;
 
 typedef struct {
@@ -47,33 +47,36 @@ pthread_t movethread;
 static unsigned int speed = default_speed;
 
 struct {
-    int x;
-    int y;
+    float x;
+    float y;
     int speed_x;
     int speed_y;
 } mouseinfo;
 
 
-void getrootptr(int *x, int *y);
-void moverelative(int x, int y);
+void get_pointer();
+void moverelative(float x, float y);
 void click(unsigned int button, Bool is_press);
-void handle_keypress(XKeyEvent event);
-void handle_keyrelease(XKeyEvent event);
+void handle_key(XKeyEvent event);
 void init_x();
 void close_x();
 
 
-void getrootptr(int *x, int *y) {
+void get_pointer() {
+    int x, y;
     int di;
     unsigned int dui;
     Window dummy;
-    XQueryPointer(dpy, root, &dummy, &dummy, x, y, &di, &di, &dui);
+    XQueryPointer(dpy, root, &dummy, &dummy, &x, &y, &di, &di, &dui);
+    mouseinfo.x = x;
+    mouseinfo.y = y;
 }
 
-void moverelative(int x, int y) {
+void moverelative(float x, float y) {
     mouseinfo.x += x;
     mouseinfo.y += y;
-    XWarpPointer(dpy, None, root, 0, 0, 0, 0, mouseinfo.x, mouseinfo.y);
+    XWarpPointer(dpy, None, root, 0, 0, 0, 0,
+            (int) mouseinfo.x, (int) mouseinfo.y);
     XFlush(dpy);
 }
 
@@ -120,7 +123,8 @@ void *moveforever(void *val) {
     /* this function is executed in a seperate thread */
     while (1) {
         if (mouseinfo.speed_x != 0 || mouseinfo.speed_y != 0) {
-            moverelative(speed * mouseinfo.speed_x, speed * mouseinfo.speed_y);
+            moverelative((float) mouseinfo.speed_x * speed / move_rate,
+                         (float) mouseinfo.speed_y * speed / move_rate);
         }
         usleep(1000000 / move_rate);
     }
@@ -187,7 +191,7 @@ int main () {
 
     init_x();
 
-    getrootptr(&mouseinfo.x, &mouseinfo.y);
+    get_pointer();
     mouseinfo.speed_x = 0;
     mouseinfo.speed_y = 0;
 
@@ -204,7 +208,7 @@ int main () {
         switch (event.type) {
             case KeyPress:
             case KeyRelease:
-                getrootptr(&mouseinfo.x, &mouseinfo.y);
+                get_pointer();
                 handle_key(event.xkey);
                 break;
         }

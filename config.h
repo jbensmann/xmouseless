@@ -1,17 +1,16 @@
 
-/* the rate at which the mouse moves in Hz
- * also affects the speed */
-static const unsigned int move_rate = 30;
+/* the rate at which the mouse moves in Hz */
+static const unsigned int move_rate = 50;
 
-/* the speed with no modifier */
-static const unsigned int default_speed = 15;
+/* the speed with no modifier (pixels per second) */
+static const unsigned int default_speed = 300;
 
 static SpeedBindings speed_bindings[] = {
     /* key             speed */  
-    { XK_Super_L,      100 },
-    { XK_Alt_L,        50  },
-    { XK_a,            3   },
-    { XK_Control_L,    1   },
+    { XK_Super_L,      2000 },
+    { XK_Alt_L,        1000 },
+    { XK_a,            60   },
+    { XK_Control_L,    10   },
 };
 
 static MoveBinding move_bindings[] = {
