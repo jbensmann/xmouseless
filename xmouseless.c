@@ -49,8 +49,8 @@ static unsigned int speed = default_speed;
 struct {
     float x;
     float y;
-    int speed_x;
-    int speed_y;
+    float speed_x;
+    float speed_y;
 } mouseinfo;
 
 

@@ -13,16 +13,13 @@ static SpeedBindings speed_bindings[] = {
     { XK_Control_L,    10   },
 };
 
+/* you can also add any other direction (e.g. diagonals) */
 static MoveBinding move_bindings[] = {
     /* key         x      y */
     { XK_j,        -1,     0 },
     { XK_l,         1,     0 },
     { XK_i,         0,    -1 },
-    { XK_comma,     0,     1 },
-    { XK_u,        -1,    -1 },
-    { XK_o,         1,    -1 },
-    { XK_m,        -1,     1 },
-    { XK_period,    1,     1 },
+    { XK_k,         0,     1 },
 };
 
 /* 1: left
