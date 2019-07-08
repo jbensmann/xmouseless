@@ -16,6 +16,12 @@ make
 sudo make install
 ```
 
+If you are not using an Arch based distro you might have to install some headers, e.g. on
+Debian based distros:
+```
+sudo apt-get install libx11-dev libxtst-dev
+```
+
 ## Configuration
 
 Edit config.h and reinstall. The configuration file should be self explaining.
