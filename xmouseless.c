@@ -43,7 +43,7 @@ Display *dpy;
 Window root;
 pthread_t movethread;
 
-static unsigned int speed = default_speed;
+static unsigned int speed;
 
 struct {
     float x;
@@ -193,6 +193,7 @@ int main () {
     get_pointer();
     mouseinfo.speed_x = 0;
     mouseinfo.speed_y = 0;
+    speed = default_speed;
 
     // start the thread for mouse movement
     rc = pthread_create(&movethread, NULL, &moveforever, NULL);
