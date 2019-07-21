@@ -9,7 +9,7 @@ static SpeedBindings speed_bindings[] = {
     /* key             speed */  
     { XK_Super_L,      3000 },
     { XK_Alt_L,        1500 },
-    { XK_a,            60   },
+    { XK_a,            100  },
     { XK_Control_L,    10   },
 };
 
