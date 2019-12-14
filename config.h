@@ -1,11 +1,14 @@
 
-/* the rate at which the mouse moves in Hz */
+/* the rate at which the mouse moves in Hz
+ * does not change its speed */
 static const unsigned int move_rate = 50;
 
-/* the speed with no modifier (pixels per second) */
+/* the default speed of the mouse pointer
+ * in pixels per second */
 static const unsigned int default_speed = 500;
 
-static SpeedBindings speed_bindings[] = {
+/* changes the speed of the mouse pointer */
+static SpeedBinding speed_bindings[] = {
     /* key             speed */  
     { XK_Super_L,      3000 },
     { XK_Alt_L,        1500 },
@@ -13,7 +16,8 @@ static SpeedBindings speed_bindings[] = {
     { XK_Control_L,    10   },
 };
 
-/* you can also add any other direction (e.g. diagonals) */
+/* moves the mouse pointer
+ * you can also add any other direction (e.g. diagonals) */
 static MoveBinding move_bindings[] = {
     /* key         x      y */
     { XK_j,        -1,     0 },
@@ -24,19 +28,28 @@ static MoveBinding move_bindings[] = {
 
 /* 1: left
  * 2: middle
- * 3: right
- * 4: scroll up
- * 5: scroll down */
+ * 3: right */
 static ClickBinding click_bindings[] = {
     /* key         button */  
     { XK_space,    1 },
     { XK_f,        1 },
     { XK_d,        2 },
     { XK_s,        3 },
-    { XK_plus,     4 },
-    { XK_minus,    5 },
 };
 
+/* scrolls up, down, left and right
+ * a higher value scrolls faster */
+static ScrollBinding scroll_bindings[] = {
+    /* key        x      y */
+    { XK_n,        0 ,    25 },
+    { XK_p,        0 ,   -25 },
+    { XK_plus,     0 ,    80 },
+    { XK_minus,    0 ,   -80 },
+    { XK_h,        25,    0  },
+    { XK_g,       -25,    0  },
+};
+
+/* executes shell commands */
 static ShellBinding shell_bindings[] = {
     /* key         command */  
     { XK_b,        "wmctrl -a firefox" },

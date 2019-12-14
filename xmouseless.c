@@ -27,8 +27,14 @@ typedef struct {
 
 typedef struct {
     KeySym keysym;
+    float x;
+    float y;
+} ScrollBinding;
+
+typedef struct {
+    KeySym keysym;
     unsigned int speed;
-} SpeedBindings;
+} SpeedBinding;
 
 typedef struct {
     KeySym keysym;
@@ -52,10 +58,19 @@ struct {
     float speed_y;
 } mouseinfo;
 
+struct {
+    float x;
+    float y;
+    float speed_x;
+    float speed_y;
+} scrollinfo;
+
 
 void get_pointer();
-void moverelative(float x, float y);
+void move_relative(float x, float y);
 void click(unsigned int button, Bool is_press);
+void click_full(unsigned int button);
+void scroll(float x, float y);
 void handle_key(XKeyEvent event);
 void init_x();
 void close_x();
@@ -71,7 +86,7 @@ void get_pointer() {
     mouseinfo.y = y;
 }
 
-void moverelative(float x, float y) {
+void move_relative(float x, float y) {
     mouseinfo.x += x;
     mouseinfo.y += y;
     XWarpPointer(dpy, None, root, 0, 0, 0, 0,
@@ -80,8 +95,35 @@ void moverelative(float x, float y) {
 }
 
 void click(unsigned int button, Bool is_press) {
-    XTestFakeButtonEvent(dpy, button, is_press, 0);
+    XTestFakeButtonEvent(dpy, button, is_press, CurrentTime);
     XFlush(dpy);
+}
+
+void click_full(unsigned int button) {
+    XTestFakeButtonEvent(dpy, button, 1, CurrentTime);
+    XTestFakeButtonEvent(dpy, button, 0, CurrentTime);
+    XFlush(dpy);
+}
+
+void scroll(float x, float y) {
+    scrollinfo.x += x;
+    scrollinfo.y += y;
+    while (scrollinfo.y <= -0.51) {
+        scrollinfo.y += 1;
+        click_full(4);
+    }
+    while (scrollinfo.y >= 0.51) {
+        scrollinfo.y -= 1;
+        click_full(5);
+    }
+    while (scrollinfo.x <= -0.51) {
+        scrollinfo.x += 1;
+        click_full(6);
+    }
+    while (scrollinfo.x >= 0.51) {
+        scrollinfo.x -= 1;
+        click_full(7);
+    }
 }
 
 void init_x() {
@@ -101,8 +143,9 @@ void init_x() {
     /* grab keys until success */
     for (i = 0; i < 100; i++) {
         if (XGrabKeyboard(dpy, root, False, GrabModeAsync,
-                GrabModeAsync, CurrentTime) == GrabSuccess)
+                GrabModeAsync, CurrentTime) == GrabSuccess) {
             return;
+        }
         usleep(10000);
     }
 
@@ -118,12 +161,18 @@ void close_x(int exit_status) {
     exit(exit_status);
 }
 
-void *moveforever(void *val) {
+void *move_forever(void *val) {
     /* this function is executed in a seperate thread */
     while (1) {
+        /* move mouse? */
         if (mouseinfo.speed_x != 0 || mouseinfo.speed_y != 0) {
-            moverelative((float) mouseinfo.speed_x * speed / move_rate,
-                         (float) mouseinfo.speed_y * speed / move_rate);
+            move_relative((float) mouseinfo.speed_x * speed / move_rate,
+                          (float) mouseinfo.speed_y * speed / move_rate);
+        }
+        /* scroll? */
+        if (scrollinfo.speed_x != 0 || scrollinfo.speed_y != 0) {
+            scroll((float) scrollinfo.speed_x / move_rate,
+                   (float) scrollinfo.speed_y / move_rate);
         }
         usleep(1000000 / move_rate);
     }
@@ -162,6 +211,15 @@ void handle_key(XKeyEvent event) {
         }
     }
 
+    /* scroll bindings */
+    for (i = 0; i < LENGTH(scroll_bindings); i++) {
+        if (scroll_bindings[i].keysym == keysym) {
+            int sign = is_press ? 1 : -1;
+            scrollinfo.speed_x += sign * scroll_bindings[i].x;
+            scrollinfo.speed_y += sign * scroll_bindings[i].y;
+        }
+    }
+
     /* shell and exit bindings only on key release */
     if (!is_press) {
         /* shell bindings */
@@ -195,8 +253,13 @@ int main () {
     mouseinfo.speed_y = 0;
     speed = default_speed;
 
-    // start the thread for mouse movement
-    rc = pthread_create(&movethread, NULL, &moveforever, NULL);
+    scrollinfo.x = 0;
+    scrollinfo.y = 0;
+    scrollinfo.speed_x = 0;
+    scrollinfo.speed_y = 0;
+
+    /* start the thread for mouse movement and scrolling */
+    rc = pthread_create(&movethread, NULL, &move_forever, NULL);
     if( rc != 0 ) {
         printf("Unable to start thread.\n");
         return EXIT_FAILURE;
