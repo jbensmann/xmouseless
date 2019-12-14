@@ -1,6 +1,6 @@
 # xmouseless
 
-This program is a replacement for the physical mouse in X11.
+This program is a replacement for the physical mouse in Linux.
 
 Features:
 - move the mouse with different speeds
