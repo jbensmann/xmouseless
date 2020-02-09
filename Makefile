@@ -1,5 +1,5 @@
 # xmouseless
-VERSION = 0.1.0
+VERSION = 0.1.1
 CC      = /usr/bin/gcc
 CFLAGS  = -Wall -g
 LDFLAGS = -lX11 -lXtst -lpthread

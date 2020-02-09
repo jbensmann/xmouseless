@@ -71,7 +71,7 @@ void move_relative(float x, float y);
 void click(unsigned int button, Bool is_press);
 void click_full(unsigned int button);
 void scroll(float x, float y);
-void handle_key(XKeyEvent event);
+void handle_key(KeyCode keycode, Bool is_press);
 void init_x();
 void close_x();
 
@@ -178,13 +178,11 @@ void *move_forever(void *val) {
     }
 }
 
-void handle_key(XKeyEvent event) {
+void handle_key(KeyCode keycode, Bool is_press) {
     unsigned int i;
     KeySym keysym;
-    Bool is_press;
 
-    keysym = XkbKeycodeToKeysym(dpy, event.keycode, 0, 0);
-    is_press = (event.type == KeyPress);
+    keysym = XkbKeycodeToKeysym(dpy, keycode, 0, 0);
 
     /* move bindings */
     for (i = 0; i < LENGTH(move_bindings); i++) {
@@ -243,8 +241,9 @@ void handle_key(XKeyEvent event) {
 }
 
 int main () {
+    char keys_return[32];
     int rc;
-    XEvent event;
+    int i, j;
 
     init_x();
 
@@ -265,14 +264,26 @@ int main () {
         return EXIT_FAILURE;
     }
 
+    /* get the initial state of all keys */
+    XQueryKeymap(dpy, keys_return);
+    for (i = 0; i < 32; i++) {
+        for (j = 0; j < 8; j++) {
+            if (keys_return[i] & (1<<j)) {
+                handle_key(8 * i + j, 1);
+            }
+        }
+    }
+
+    /* handle key presses and releases */
     while(1) {
+        XEvent event;
         XNextEvent(dpy, &event);
 
         switch (event.type) {
             case KeyPress:
             case KeyRelease:
                 get_pointer();
-                handle_key(event.xkey);
+                handle_key(event.xkey.keycode, event.xkey.type == KeyPress);
                 break;
         }
     }
