@@ -9,17 +9,6 @@ Features:
 - scroll
 - execute shell commands
 
-> **Note:** Because of some issues with xmouseless which cannot be easily fixed the way it operates, a new version, called
-[mouseless](https://github.com/jbensmann/mouseless), has been created. It operates on the level of Linux devices and has
-> the following advantages:
-> - not dependent on X11, e.g. works with Wayland too
-> - unless xmouseless, does not have problems with clicks in some menus
-> - possibility to toggle the mouse mode by holding down a key
-> - additional feature: remap keys, define arbitrary layers (similar to kmonad)
->
-> Nevertheless, you still might want to try xmouseless first to see if it fits your needs, since it is a little
-> easier to configure, and try mouseless later in case you want more features.
-
 ## Installation
 
 ```
@@ -49,4 +38,17 @@ You probably want to define a key binding to start xmouseless.
 
 The configuration is done in config.h, which is a C header file, but you don't need any programming knowledge to edit
 it. After you edited the file, you have to run make again. 
+
+## New version
+
+Because of some minor issues with xmouseless which cannot be easily fixed the way it operates, a new version, called
+[mouseless](https://github.com/jbensmann/mouseless), has been created. It operates on the level of Linux devices and has
+the following advantages:
+- not dependent on X11, e.g. works with Wayland too
+- unless xmouseless, does not have problems with clicks in some menus
+- possibility to toggle the mouse mode by holding down a key
+- additional feature: remap keys, define arbitrary layers (similar to kmonad)
+
+Nevertheless, you still might want to try xmouseless first to see if it fits your needs, since it is a little
+easier to configure, and try mouseless later in case you want more features.
 
