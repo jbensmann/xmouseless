@@ -217,7 +217,7 @@ void handle_key(KeyCode keycode, Bool is_press) {
             scrollinfo.speed_y += sign * scroll_bindings[i].y;
 
             /* scroll once, workaround for scrolling not working the first time */
-            int scroll_x, scroll_y = 0;
+            int scroll_x = 0, scroll_y = 0;
             if (scrollinfo.speed_x < 0) scroll_x = -1;
             if (scrollinfo.speed_x > 0) scroll_x = 1;
             if (scrollinfo.speed_y < 0) scroll_y = -1;
