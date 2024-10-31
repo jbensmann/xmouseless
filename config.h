@@ -9,7 +9,7 @@ static const unsigned int default_speed = 500;
 
 /* changes the speed of the mouse pointer */
 static SpeedBinding speed_bindings[] = {
-    /* key             speed */  
+    /* key             speed */
     { XK_Super_L,      3000 },
     { XK_Alt_L,        1500 },
     { XK_a,            100  },
@@ -30,7 +30,7 @@ static MoveBinding move_bindings[] = {
  * 2: middle
  * 3: right */
 static ClickBinding click_bindings[] = {
-    /* key         button */  
+    /* key         button */
     { XK_space,    1 },
     { XK_f,        1 },
     { XK_d,        2 },
@@ -51,7 +51,7 @@ static ScrollBinding scroll_bindings[] = {
 
 /* executes shell commands */
 static ShellBinding shell_bindings[] = {
-    /* key         command */  
+    /* key         command */
     { XK_b,        "wmctrl -a firefox" },
     { XK_0,        "xdotool mousemove 0 0" },
 };

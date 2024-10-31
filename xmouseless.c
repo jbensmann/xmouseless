@@ -239,7 +239,7 @@ void handle_key(KeyCode keycode, Bool is_press) {
             }
         }
 
-        /* exit */ 
+        /* exit */
         for (i = 0; i < LENGTH(exit_keys); i++) {
             if (exit_keys[i] == keysym) {
                 close_x(EXIT_SUCCESS);
