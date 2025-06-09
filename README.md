@@ -19,7 +19,7 @@ sudo make install
 If you are not using an Arch based distro you might have to install some headers, e.g. on Debian based distros:
 
 ```
-sudo apt-get install libx11-dev libxtst-dev
+sudo apt-get install libx11-dev libxtst-dev libc6-dev
 ```
 
 ## Usage
