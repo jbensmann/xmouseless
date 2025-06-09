@@ -37,7 +37,7 @@ You probably want to define a key binding to start xmouseless.
 ## Configuration
 
 The configuration is done in config.h, which is a C header file, but you don't need any programming knowledge to edit
-it. After you edited the file, you have to run make again. 
+it. After you edited the file, you have to run make again.
 
 ## New version
 
